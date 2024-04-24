@@ -45,14 +45,14 @@ const hardhatConfig: HardhatUserConfig = {
       allowUnlimitedContractSize: false,
       initialBaseFeePerGas: 0
     },
-    goerli: {
-      chainId: 5,
-      url: '',
-      accounts: []
-    },
-    arbitrumGoerli: {
+    arbitrumSepolia: {
       chainId: 421614,
       url: 'https://sepolia-rollup.arbitrum.io/rpc',
+      accounts: []
+    },
+    arbitrum: {
+      chainId: 42161,
+      url: 'https://arb1.arbitrum.io/rpc',
       accounts: []
     }
   },
