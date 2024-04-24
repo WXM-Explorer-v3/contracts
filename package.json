@@ -4,7 +4,7 @@
 	"description": "The smart contracts which make up the WeatherXM system. (weatherxm.com)",
 	"scripts": {
 		"setup": "npm install && forge install",
-		"prepare": "husky install",
+		"prepare": "husky",
 		"test:sol": "npm run generate:testing-data && forge test --ffi",
 		"test:spec": "npx hardhat test test/*.spec.ts",
 		"test:integration": "npx hardhat --config hardhat-fork.config.ts test",
@@ -16,8 +16,8 @@
 		"test:foundry:weatherxm": "forge test --mp test-foundry/WeatherXM.t.sol -vvvv",
 		"format": "prettier --config .prettierrc --write \"src/**/*.sol\" \"**/*.ts\" \"**/*.md\" \"**/*.yml\" \"**/*.json\"",
 		"check:sizes": "forge build --sizes",
-		"lint": "solhint \"src/*.sol\" && solhint \"src/test-helpers/*.sol\" && solhint --config src/interfaces/.solhint.json \"src/interfaces/*.sol\" && prettier -c 'src/**/*.sol' && eslint \"**/*.ts\"",
-		"lint:fix": "prettier --write 'src/**/*.sol' && eslint --fix \"**/*.ts\"",
+		"lint": "solhint \"src/*.sol\" && solhint \"src/test-helpers/*.sol\" && solhint --config src/interfaces/.solhint.json \"src/interfaces/*.sol\" && prettier --plugin=prettier-plugin-solidity -c 'src/**/*.sol' && eslint \"**/*.ts\"",
+		"lint:fix": "prettier --write --plugin=prettier-plugin-solidity 'src/**/*.sol' && eslint --fix \"**/*.ts\"",
 		"slither": "python3 -m venv .venv && .venv/bin/python -m pip install slither-analyzer && .venv/bin/python -m slither . --exclude-dependencies --print human-summary --json output.json --filter-paths mocks/|test/|interfaces/ ",
 		"docs": "./node_modules/.bin/hardhat docgen",
 		"pretty-quick": "pretty-quick",
@@ -46,6 +46,7 @@
 		"npm": ">=9.4.0",
 		"node": ">=16.14.0"
 	},
+	"homepage": "https://github.com/weatherxm-network/smart-contracts#readme",
 	"devDependencies": {
 		"@arbitrum/nitro-contracts": "^1.2.1",
 		"@ethersproject/abi": "^5.7.0",
@@ -82,10 +83,7 @@
 		"solidity-docgen": "^0.6.0-beta.36",
 		"ts-node": "^10.9.2",
 		"typescript": "^5.4.5",
-		"web3": "^4.8.0"
-	},
-	"homepage": "https://github.com/WeatherXM/smart-contracts#readme",
-	"dependencies": {
+		"web3": "^4.8.0",
 		"ethereumjs-util": "^7.1.5"
 	}
 }
