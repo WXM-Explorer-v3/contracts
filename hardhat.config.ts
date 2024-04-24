@@ -11,14 +11,14 @@ import '@nomicfoundation/hardhat-chai-matchers';
 import '@nomicfoundation/hardhat-network-helpers';
 import 'solidity-docgen';
 import envConfig from './config';
-import * as fs from 'fs';
+import * as fs from 'node:fs';
 
 function getRemappings() {
   return fs
     .readFileSync('remappings.txt', 'utf8')
     .split('\n')
     .filter(Boolean) // remove empty lines
-    .map((line) => line.trim().split('='));
+    .map((line: any) => line.trim().split('='));
 }
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const compilerConfig = (version: string) => ({
