@@ -43,8 +43,8 @@
 		"url": "https://github.com/weatherxm-network/smart-contracts/issues"
 	},
 	"engines": {
-		"npm": ">=9.4.0",
-		"node": ">=16.14.0"
+		"npm": ">=10.2.4",
+		"node": ">=20.5.0"
 	},
 	"homepage": "https://github.com/weatherxm-network/smart-contracts#readme",
 	"devDependencies": {
