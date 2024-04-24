@@ -12,7 +12,7 @@ import '@nomicfoundation/hardhat-network-helpers';
 import 'solidity-docgen';
 import envConfig from './config';
 import * as fs from 'fs';
-  
+
 function getRemappings() {
   return fs
     .readFileSync('remappings.txt', 'utf8')
@@ -47,18 +47,14 @@ const hardhatConfig: HardhatUserConfig = {
     },
     goerli: {
       chainId: 5,
-      url: "",
+      url: '',
       accounts: []
     },
     arbitrumGoerli: {
-      chainId: 421613,
-      url: "https://goerli-rollup.arbitrum.io/rpc",
+      chainId: 421614,
+      url: 'https://sepolia-rollup.arbitrum.io/rpc',
       accounts: []
     }
-    // mumbai: {
-    //   url: process.env.NODE_URL || `https://polygon-mumbai.g.alchemy.com/v2/${envConfig.ALCHEMY_API_KEY}`,
-    //   accounts: [process.env.MUMBAI_PRIVATE_KEY]
-    // }
   },
   solidity: {
     compilers: [{ ...compilerConfig('0.8.20') }]
