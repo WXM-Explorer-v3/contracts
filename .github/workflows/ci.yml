@@ -23,7 +23,7 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: "20.x"
           cache: "npm"
       - name: install dependencies
         run: npm install
@@ -46,7 +46,7 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: "20.x"
           cache: "npm"
       - name: install dependencies
         run: npm install
@@ -59,4 +59,3 @@ jobs:
           FORKING: ${{ secrets.FORKING }}
           REPORT_GAS: ${{ secrets.REPORT_GAS }}
           COINMARKETCAP_API: ${{ secrets.COINMARKETCAP_API }}
-
