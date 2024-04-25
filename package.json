@@ -81,7 +81,6 @@
 		"pretty-quick": "^4.0.0",
 		"sol2uml": "^2.5.20",
 		"solhint": "^4.5.4",
-		"solidity-coverage": "^0.8.12",
 		"solidity-docgen": "^0.6.0-beta.36",
 		"ts-node": "^10.9.2",
 		"typescript": "^5.4.5",
