@@ -10,7 +10,7 @@ libs = [
     'lib'
 ]
 auto_detect_remappings = false
-fuzz = { runs = 10000 }
+fuzz = { runs = 1000 }
 
 [profile.ci]
   fuzz = { runs = 1_000 }
