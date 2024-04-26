@@ -5,7 +5,7 @@ import { SafeMath } from "lib/openzeppelin-contracts/contracts/utils/math/SafeMa
 import { ERC20 } from "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
 import { ERC20Capped } from "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/ERC20Capped.sol";
 
-contract WeatherXM is ERC20, ERC20Capped {
+contract WeatherXMMock is ERC20, ERC20Capped {
   /* ========== LIBRARIES ========== */
   using SafeMath for uint256;
 
