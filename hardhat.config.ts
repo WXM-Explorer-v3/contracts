@@ -24,7 +24,7 @@ function getRemappings() {
 export const compilerConfig = (version: string) => ({
   version,
   settings: {
-    evmVersion: 'london',
+    evmVersion: 'shanghai',
     optimizer: {
       enabled: true,
       runs: 5000
@@ -57,7 +57,7 @@ const hardhatConfig: HardhatUserConfig = {
     }
   },
   solidity: {
-    compilers: [{ ...compilerConfig('0.8.20') }]
+    compilers: [{ ...compilerConfig('0.8.20')},{...compilerConfig('0.8.25') }]
   },
   preprocess: {
     eachLine: () => ({
