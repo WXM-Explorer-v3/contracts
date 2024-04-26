@@ -4,7 +4,7 @@ pragma solidity 0.8.25;
 import { Vm } from "forge-std/Vm.sol";
 import { DSTest } from "ds-test/test.sol";
 import { Test } from "forge-std/Test.sol";
-import { WeatherXM } from "src/0.8.25/mocks/WeatherXM.mock.sol";
+import { WeatherXMMock as WeatherXM} from "src/0.8.25/mocks/WeatherXMMock.sol";
 import { RewardsVault } from "src/0.8.25/RewardsVault.sol";
 import { IERC20 } from "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 

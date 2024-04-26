@@ -1,28 +1,30 @@
 import { ethers, config, upgrades } from 'hardhat';
 import { expect } from 'chai';
-import Web3 from 'web3'
+import Web3 from 'web3';
 import { loadFixture } from '@nomicfoundation/hardhat-network-helpers';
 import { mine } from '@nomicfoundation/hardhat-network-helpers';
 
 describe('WeatherXMStation', () => {
   async function loadWeatherXMStationFixture() {
-    const [
-      owner,
-      manufacturer,
-      alice,
-      bob,
-      station1,
-      station2
-    ] = await ethers.getSigners();
+    const [owner, manufacturer, alice, bob, station1, station2] =
+      await ethers.getSigners();
 
-    const accounts: any  = config.networks.hardhat.accounts;
-    const station1Wallet = ethers.Wallet.fromMnemonic(accounts.mnemonic, accounts.path + '/4');
-    const station1PrivKey = station1Wallet.privateKey
+    const accounts: any = config.networks.hardhat.accounts;
+    const station1Wallet = ethers.Wallet.fromMnemonic(
+      accounts.mnemonic,
+      accounts.path + '/4'
+    );
+    const station1PrivKey = station1Wallet.privateKey;
 
-    const station2Wallet = ethers.Wallet.fromMnemonic(accounts.mnemonic, accounts.path + '/5');
-    const station2PrivKey = station2Wallet.privateKey
+    const station2Wallet = ethers.Wallet.fromMnemonic(
+      accounts.mnemonic,
+      accounts.path + '/5'
+    );
+    const station2PrivKey = station2Wallet.privateKey;
 
-    const WeatherXMStationsRegistry = await ethers.getContractFactory('WeatherXMStationsRegistry');
+    const WeatherXMStationsRegistry = await ethers.getContractFactory(
+      'WeatherXMStationsRegistry'
+    );
     const stationRegistry = await upgrades.deployProxy(
       WeatherXMStationsRegistry,
       [],
@@ -33,18 +35,19 @@ describe('WeatherXMStation', () => {
     );
     await stationRegistry.deployed();
 
-    const ArbSys = await ethers.getContractFactory('src/mocks/ArbSys.sol:ArbSys')
-    const arbSys = await ArbSys.deploy()
-    const WeatherXMStation = await ethers.getContractFactory(
-      'WeatherXMStation'
+    const ArbSys = await ethers.getContractFactory(
+      'src/0.8.25/mocks/ArbSys.sol:ArbSys'
     );
+    const arbSys = await ArbSys.deploy();
+    const WeatherXMStation =
+      await ethers.getContractFactory('WeatherXMStation');
     const weatherXMStation = await WeatherXMStation.deploy(
       'WeatherXMStation',
       'WXM_STATION',
       arbSys.address
     );
     await weatherXMStation.setStationRegistry(stationRegistry.address);
-    await stationRegistry.addStation("model1", "meta-1");
+    await stationRegistry.addStation('model1', 'meta-1');
 
     return {
       weatherXMStation,
@@ -60,18 +63,17 @@ describe('WeatherXMStation', () => {
   }
 
   function signMessage(address: string, hash: string, privKey: string) {
-    const web3 = new Web3()
-    const message = `${address}${hash.slice(2)}`
+    const web3 = new Web3();
+    const message = `${address}${hash.slice(2)}`;
     const hashedMessage = web3.utils.soliditySha3(message);
 
-    return web3.eth.accounts.sign(hashedMessage!, privKey)
+    return web3.eth.accounts.sign(hashedMessage!, privKey);
   }
 
   describe('transferTokenWithChip', () => {
     it('should correctly transfer the token', async () => {
-      const { weatherXMStation, manufacturer, station1, station1PrivKey } = await loadFixture(
-        loadWeatherXMStationFixture
-      );
+      const { weatherXMStation, manufacturer, station1, station1PrivKey } =
+        await loadFixture(loadWeatherXMStationFixture);
       await weatherXMStation.setSignatureValidityWindow(10);
 
       await weatherXMStation.mintWeatherStation(
@@ -90,21 +92,19 @@ describe('WeatherXMStation', () => {
       const blockNum = await ethers.provider.getBlockNumber();
       const block = await ethers.provider.getBlock(blockNum);
       const sig = signMessage(station1.address, block.hash, station1PrivKey);
-
-      await weatherXMStation.connect(station1)['transferTokenWithChip(bytes,uint256)'](
-        sig.signature,
-        block.number
-      )
-
+      /* eslint-disable */
+      await weatherXMStation
+        .connect(station1)
+        ['transferTokenWithChip(bytes,uint256)'](sig.signature, block.number);
+      /* eslint-enable */
       const ownerAfterTransfer = await weatherXMStation.ownerOf(0);
 
       expect(ownerAfterTransfer).to.be.equal(station1.address);
     });
 
     it('should revert if the provided block is in the current block', async () => {
-      const { weatherXMStation, manufacturer, station1, station1PrivKey } = await loadFixture(
-        loadWeatherXMStationFixture
-      );
+      const { weatherXMStation, manufacturer, station1, station1PrivKey } =
+        await loadFixture(loadWeatherXMStationFixture);
       await weatherXMStation.setSignatureValidityWindow(10);
 
       await weatherXMStation.mintWeatherStation(
@@ -123,19 +123,20 @@ describe('WeatherXMStation', () => {
       const blockNum = await ethers.provider.getBlockNumber();
       const block = await ethers.provider.getBlock(blockNum);
       const sig = signMessage(station1.address, block.hash, station1PrivKey);
-
+      /* eslint-disable */
       await expect(
-        weatherXMStation.connect(station1)['transferTokenWithChip(bytes,uint256)'](
-          sig.signature,
-          block.number + 1
-        )
-      ).to.be.revertedWithCustomError(weatherXMStation, 'InvalidBlockNumber')
-    })
+        weatherXMStation
+          .connect(station1)
+          [
+            'transferTokenWithChip(bytes,uint256)'
+          ](sig.signature, block.number + 1)
+      ).to.be.revertedWithCustomError(weatherXMStation, 'InvalidBlockNumber');
+      /* eslint-enable */
+    });
 
     it('should revert if the provided block is in the future', async () => {
-      const { weatherXMStation, manufacturer, station1, station1PrivKey } = await loadFixture(
-        loadWeatherXMStationFixture
-      );
+      const { weatherXMStation, manufacturer, station1, station1PrivKey } =
+        await loadFixture(loadWeatherXMStationFixture);
       await weatherXMStation.setSignatureValidityWindow(10);
 
       await weatherXMStation.mintWeatherStation(
@@ -154,19 +155,20 @@ describe('WeatherXMStation', () => {
       const blockNum = await ethers.provider.getBlockNumber();
       const block = await ethers.provider.getBlock(blockNum);
       const sig = signMessage(station1.address, block.hash, station1PrivKey);
-
+      /* eslint-disable */
       await expect(
-        weatherXMStation.connect(station1)['transferTokenWithChip(bytes,uint256)'](
-          sig.signature,
-          block.number + 2
-        )
-      ).to.be.revertedWithCustomError(weatherXMStation, 'InvalidBlockNumber')
-    })
-  
+        weatherXMStation
+          .connect(station1)
+          [
+            'transferTokenWithChip(bytes,uint256)'
+          ](sig.signature, block.number + 2)
+      ).to.be.revertedWithCustomError(weatherXMStation, 'InvalidBlockNumber');
+      /* eslint-enable */
+    });
+
     it('should revert if the provided block is too far in the past', async () => {
-      const { weatherXMStation, manufacturer, station1, station1PrivKey } = await loadFixture(
-        loadWeatherXMStationFixture
-      );
+      const { weatherXMStation, manufacturer, station1, station1PrivKey } =
+        await loadFixture(loadWeatherXMStationFixture);
       await weatherXMStation.setSignatureValidityWindow(10);
 
       await weatherXMStation.mintWeatherStation(
@@ -187,19 +189,24 @@ describe('WeatherXMStation', () => {
       const sig = signMessage(station1.address, block.hash, station1PrivKey);
 
       await mine(20);
+      /* eslint-disable */
 
       await expect(
-        weatherXMStation.connect(station1)['transferTokenWithChip(bytes,uint256)'](
-          sig.signature,
-          block.number
-        )
-      ).to.be.revertedWithCustomError(weatherXMStation, 'BlockNumberTooOld')
-    })
-    
+        weatherXMStation
+          .connect(station1)
+          ['transferTokenWithChip(bytes,uint256)'](sig.signature, block.number)
+      ).to.be.revertedWithCustomError(weatherXMStation, 'BlockNumberTooOld');
+      /* eslint-enable */
+    });
+
     it('should revert if the sender is not the address in the signature', async () => {
-      const { weatherXMStation, manufacturer, station1, station1PrivKey, station2 } = await loadFixture(
-        loadWeatherXMStationFixture
-      );
+      const {
+        weatherXMStation,
+        manufacturer,
+        station1,
+        station1PrivKey,
+        station2
+      } = await loadFixture(loadWeatherXMStationFixture);
       await weatherXMStation.setSignatureValidityWindow(10);
 
       await weatherXMStation.mintWeatherStation(
@@ -218,13 +225,13 @@ describe('WeatherXMStation', () => {
       const blockNum = await ethers.provider.getBlockNumber();
       const block = await ethers.provider.getBlock(blockNum);
       const sig = signMessage(station1.address, block.hash, station1PrivKey);
-
+      /* eslint-disable */
       await expect(
-        weatherXMStation.connect(station2)['transferTokenWithChip(bytes,uint256)'](
-          sig.signature,
-          block.number
-        )
-      ).to.be.revertedWithCustomError(weatherXMStation, 'InvalidSignature')
-    })
+        weatherXMStation
+          .connect(station2)
+          ['transferTokenWithChip(bytes,uint256)'](sig.signature, block.number)
+      ).to.be.revertedWithCustomError(weatherXMStation, 'InvalidSignature');
+      /* eslint-enable */
+    });
   });
 });

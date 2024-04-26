@@ -6,7 +6,7 @@ import { DSTest } from "ds-test/test.sol";
 import { Test } from "forge-std/Test.sol";
 //solhint-disable-next-line no-console
 import { console } from "forge-std/console.sol";
-import { WeatherXM } from "src/0.8.25/mocks/WeatherXM.mock.sol";
+import { WeatherXMMock as WeatherXM} from "src/0.8.25/mocks/WeatherXMMock.sol";
 import { RewardPool } from "src/0.8.25/RewardPool.sol";
 import { RewardPoolV2 } from "src/0.8.25/mocks/utils/RewardPoolV2.test.sol";
 import { RewardsVault } from "src/0.8.25/RewardsVault.sol";

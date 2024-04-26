@@ -4,7 +4,7 @@ pragma solidity 0.8.25;
 import { Vm } from "forge-std/Vm.sol";
 import { DSTest } from "ds-test/test.sol";
 import { Test } from "forge-std/Test.sol";
-import { WeatherXM } from "src/0.8.25/mocks/WeatherXM.mock.sol";
+import { WeatherXMMock as WeatherXM} from "src/0.8.25/mocks/WeatherXMMock.sol";
 import { ServicePool } from "src/0.8.25/ServicePool.sol";
 import { ServicePoolV2 } from "src/0.8.25/mocks/utils/ServicePoolV2.test.sol";
 import { ERC1967Proxy } from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
