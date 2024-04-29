@@ -74,21 +74,6 @@ contract RewardPool is
     _;
   }
 
-  /**
-   * @notice Check target address for token transfer or withdrawal.
-   * @dev Prevent the transfer of tokens to the same address of the smart contract
-   * @param to The target address
-   * */
-  modifier validDestination(address to) {
-    if (to == address(0x0)) {
-      revert TargetAddressIsZero();
-    }
-    if (to == address(this)) {
-      revert TargetAddressIsContractAddress();
-    }
-    _;
-  }
-
   /// @custom:oz-upgrades-unsafe-allow constructor
   constructor() {
     _disableInitializers();
@@ -193,9 +178,9 @@ contract RewardPool is
     if (amount == 0) {
       revert AmountRequestedIsZero();
     }
-    uint256 total = _verify(account, amount, _cycle, proof);
-    if (claims[account] < total) {
-      return total.sub(claims[account]);
+    _verify(account, amount, _cycle, proof);
+    if (claims[account] < amount) {
+      return amount.sub(claims[account]);
     } else {
       return 0;
     }
@@ -213,10 +198,9 @@ contract RewardPool is
     uint256 amount,
     uint256 _cycle,
     bytes32[] calldata proof
-  ) internal view returns (uint256) {
+  ) internal view {
     bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(account, amount))));
     require(MerkleProof.verify(proof, roots[_cycle], leaf), "INVALID PROOF");
-    return amount;
   }
 
   /**

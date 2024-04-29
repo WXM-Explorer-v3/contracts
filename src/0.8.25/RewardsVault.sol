@@ -25,6 +25,10 @@ contract RewardsVault is Ownable {
   uint256 public constant maxDailyEmission = 14246 * 10 ** 18;
   uint256 public constant rewardDistributionPeriod = 1440 minutes;
 
+  /* ========== EVENTS ========== */
+  event DistributorUpdated(address indexed distrubutor);
+
+
   /**
    * @notice Rate limit for reward distribution.
    * @dev Every 24h is the minimum limit for pulling rewards.
@@ -89,5 +93,7 @@ contract RewardsVault is Ownable {
    * */
   function setRewardDistributor(address _rewardDistributor) public onlyOwner {
     rewardDistributor = _rewardDistributor;
+
+    emit DistributorUpdated(_rewardDistributor);
   }
 }
