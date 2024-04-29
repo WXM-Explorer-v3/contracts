@@ -193,12 +193,7 @@ contract RewardPool is
    * @param _cycle The desired cycle for which to choose the root hash
    * @param proof The _proof that enables the claim of the requested amount of tokens
    * */
-  function _verify(
-    address account,
-    uint256 amount,
-    uint256 _cycle,
-    bytes32[] calldata proof
-  ) internal view {
+  function _verify(address account, uint256 amount, uint256 _cycle, bytes32[] calldata proof) internal view {
     bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(account, amount))));
     require(MerkleProof.verify(proof, roots[_cycle], leaf), "INVALID PROOF");
   }

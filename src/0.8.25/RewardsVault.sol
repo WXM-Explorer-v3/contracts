@@ -28,7 +28,6 @@ contract RewardsVault is Ownable {
   /* ========== EVENTS ========== */
   event DistributorUpdated(address indexed distrubutor);
 
-
   /**
    * @notice Rate limit for reward distribution.
    * @dev Every 24h is the minimum limit for pulling rewards.
