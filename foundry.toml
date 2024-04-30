@@ -1,8 +1,8 @@
 [profile.default]
-src = "src"
+src = "src/0.8.25"
 out = 'out'
-test = 'test/foundry'
-solc_version = '0.8.20'
+test = 'test/0.8.25'
+solc_version = '0.8.25'
 auto_detect_solc = false
 optimizer_runs = 10_000
 libs = [
@@ -25,3 +25,13 @@ fuzz = { runs = 1000 }
   quote_style = "double"
   tab_width = 4
   wrap_comments = true
+
+[profile.0_8_20]
+src = 'src/0.8.20'
+out = 'out'
+test = 'test/0.8.20'
+libs = ['node_modules','lib']
+vm_version='shanghai'
+optimizer_runs = 10_000
+auto_detect_remappings = false
+solc_version = '0.8.20'

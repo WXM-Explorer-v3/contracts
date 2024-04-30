@@ -1,6 +1,6 @@
 ### Solidity ###
 #test data
-test/foundry/scripts/data/
+test/0.8.25/scripts/data/
 # Logs
 logs
 *.log
