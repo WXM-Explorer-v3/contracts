@@ -11,20 +11,20 @@ import '@nomicfoundation/hardhat-chai-matchers';
 import '@nomicfoundation/hardhat-network-helpers';
 import 'solidity-docgen';
 import envConfig from './config';
-import * as fs from 'fs';
-  
+import * as fs from 'node:fs';
+
 function getRemappings() {
   return fs
     .readFileSync('remappings.txt', 'utf8')
     .split('\n')
     .filter(Boolean) // remove empty lines
-    .map((line) => line.trim().split('='));
+    .map((line: any) => line.trim().split('='));
 }
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const compilerConfig = (version: string) => ({
   version,
   settings: {
-    evmVersion: 'london',
+    evmVersion: 'shanghai',
     optimizer: {
       enabled: true,
       runs: 5000
@@ -45,23 +45,19 @@ const hardhatConfig: HardhatUserConfig = {
       allowUnlimitedContractSize: false,
       initialBaseFeePerGas: 0
     },
-    goerli: {
-      chainId: 5,
-      url: "",
+    arbitrumSepolia: {
+      chainId: 421614,
+      url: 'https://sepolia-rollup.arbitrum.io/rpc',
       accounts: []
     },
-    arbitrumGoerli: {
-      chainId: 421613,
-      url: "https://goerli-rollup.arbitrum.io/rpc",
+    arbitrum: {
+      chainId: 42161,
+      url: 'https://arb1.arbitrum.io/rpc',
       accounts: []
     }
-    // mumbai: {
-    //   url: process.env.NODE_URL || `https://polygon-mumbai.g.alchemy.com/v2/${envConfig.ALCHEMY_API_KEY}`,
-    //   accounts: [process.env.MUMBAI_PRIVATE_KEY]
-    // }
   },
   solidity: {
-    compilers: [{ ...compilerConfig('0.8.20') }]
+    compilers: [{ ...compilerConfig('0.8.20')},{...compilerConfig('0.8.25') }]
   },
   preprocess: {
     eachLine: () => ({
