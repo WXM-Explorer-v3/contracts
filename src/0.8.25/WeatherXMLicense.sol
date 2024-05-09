@@ -5,7 +5,7 @@ import { ERC721 } from "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721
 import { ERC721Enumerable } from "lib/openzeppelin-contracts/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import { IERC165 } from "lib/openzeppelin-contracts/contracts/utils/introspection/IERC165.sol";
 import { AccessControl } from "lib/openzeppelin-contracts/contracts/access/AccessControl.sol";
-import { Base64 } from "@openzeppelin/contracts/utils/Base64.sol";
+import { Base64 } from "lib/openzeppelin-contracts/contracts/utils/Base64.sol";
 
 contract WeatherXMLicense is ERC721, ERC721Enumerable, AccessControl {
   /* ========== STATE VARIABLES ========== */
