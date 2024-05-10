@@ -102,6 +102,8 @@ contract RewardsVaultTest is Test {
   function testSetRewardDistributor() public {
     vm.startPrank(owner);
 
+    vm.expectEmit(true, true, false, true, address(rewardsVault));
+    emit RewardsVault.DistributorUpdated(alice);
     rewardsVault.setRewardDistributor(alice);
 
     vm.stopPrank();
