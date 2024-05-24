@@ -284,7 +284,8 @@ contract RewardPool is
     bytes32 nonce,
     bytes calldata signature
   ) internal {
-    if (nonces[nonce]) {
+    bytes32 hashedNonce = keccak256(abi.encode(nonce, txSender));
+    if (nonces[hashedNonce]) {
       revert SignatureNonceHasAlreadyBeenUsed();
     }
     bytes32 DOMAIN_SEPARATOR;
@@ -324,7 +325,7 @@ contract RewardPool is
       revert InvalidSignature();
     }
 
-    nonces[nonce] = true;
+    nonces[hashedNonce] = true;
   }
 
   function pause() public onlyRole(DEFAULT_ADMIN_ROLE) {
