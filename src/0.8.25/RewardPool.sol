@@ -315,7 +315,7 @@ contract RewardPool is
       abi.encodePacked(
         "\x19\x01", // backslash is needed to escape the character
         DOMAIN_SEPARATOR,
-        keccak256(abi.encode(keccak256(abi.encodePacked(MESSAGE_TYPE)), txSender, amount, _cycle, claimForFee, nonce))
+        keccak256(abi.encode(keccak256(abi.encodePacked(MESSAGE_TYPE)), txSender, amount, _cycle, claimForFee, hashedNonce))
       )
     );
 

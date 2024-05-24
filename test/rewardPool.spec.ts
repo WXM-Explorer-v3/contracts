@@ -154,7 +154,8 @@ describe('RewardPool', () => {
       .slice(2);
     const hexFee = Web3.utils.padLeft(Web3.utils.numberToHex(fee), 64).slice(2);
     const senderPadded = web3.utils.padLeft(sender, 64).slice(2);
-    const message = `${messageTypeHash}${senderPadded}${hexAmount}${hexCycle}${hexFee}${nonce.slice(
+    const hashedNonce = web3.utils.soliditySha3(`${nonce}${senderPadded}`)!;
+    const message = `${messageTypeHash}${senderPadded}${hexAmount}${hexCycle}${hexFee}${hashedNonce.slice(
       2
     )}`;
     // Create message hash
