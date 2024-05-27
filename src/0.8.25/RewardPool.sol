@@ -140,8 +140,8 @@ contract RewardPool is
       token.safeTransferFrom(rewardsChangeTreasury, address(this), boostRewards);
     }
 
-    cycle++;
     emit SubmittedRootHash(cycle, root);
+    cycle++;
     return true;
   }
 
@@ -284,7 +284,8 @@ contract RewardPool is
     bytes32 nonce,
     bytes calldata signature
   ) internal {
-    if (nonces[nonce]) {
+    bytes32 hashedNonce = keccak256(abi.encode(nonce, txSender));
+    if (nonces[hashedNonce]) {
       revert SignatureNonceHasAlreadyBeenUsed();
     }
     bytes32 DOMAIN_SEPARATOR;
@@ -314,7 +315,9 @@ contract RewardPool is
       abi.encodePacked(
         "\x19\x01", // backslash is needed to escape the character
         DOMAIN_SEPARATOR,
-        keccak256(abi.encode(keccak256(abi.encodePacked(MESSAGE_TYPE)), txSender, amount, _cycle, claimForFee, nonce))
+        keccak256(
+          abi.encode(keccak256(abi.encodePacked(MESSAGE_TYPE)), txSender, amount, _cycle, claimForFee, hashedNonce)
+        )
       )
     );
 
@@ -324,7 +327,7 @@ contract RewardPool is
       revert InvalidSignature();
     }
 
-    nonces[nonce] = true;
+    nonces[hashedNonce] = true;
   }
 
   function pause() public onlyRole(DEFAULT_ADMIN_ROLE) {
