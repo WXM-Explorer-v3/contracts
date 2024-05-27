@@ -140,8 +140,8 @@ contract RewardPool is
       token.safeTransferFrom(rewardsChangeTreasury, address(this), boostRewards);
     }
 
-    cycle++;
     emit SubmittedRootHash(cycle, root);
+    cycle++;
     return true;
   }
 
