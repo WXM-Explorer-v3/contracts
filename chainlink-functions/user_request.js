@@ -5,12 +5,12 @@ const {
 const functionsConsumerAbi = require("../../abi/functionsClient.json");
 const ethers = require("ethers");
 
-const consumerAddress = "0x89fb12264B5D9DA8604cd9BcB6Abb593a91B172e"; // REPLACE this with your Functions consumer address
-const subscriptionId = 86; // REPLACE this with your subscription ID
+const consumerAddress = "0x89fb12264B5D9DA8604cd9BcB6Abb593a91B172e";
+const subscriptionId = 86;
 
 
 const makeRequestSepolia = async () => {
-  // hardcoded for Ethereum Sepolia
+  // hardcoded for Arbitrium Sepolia
   const routerAddress = "0x234a5fb5Bd614a7AA2FfAB244D603abFA0Ac5C5C";
   const linkTokenAddress = "0xb1D4538B4571d411F07960EF2838Ce337FE1E80E";
   const donId = "fun-arbitrum-sepolia-1";
@@ -30,13 +30,13 @@ const makeRequestSepolia = async () => {
   const privateKey = process.argv[5]; // fetch PRIVATE_KEY
   if (!privateKey)
     throw new Error(
-      "private key not provided - check your environment variables"
+      "private key not provided - check your arguments"
     );
 
   const rpcUrl = "https://sepolia-rollup.arbitrum.io/rpc"; // fetch Sepolia RPC URL
 
   if (!rpcUrl)
-    throw new Error(`rpcUrl not provided  - check your environment variables`);
+    throw new Error(`rpcUrl not provided  - check your arguments`);
 
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
 
